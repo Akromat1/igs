@@ -1,21 +1,25 @@
-import logo from "./logo.svg";
 import { io } from "socket.io-client";
 
 class {
   socket = io('http://localhost:3000')
 
-  send(event) {
-    this.socket.emit('chat message', event.target.value)  
+  onCreate() {
+    this.state = {content: ''}
+    this.socket.on('get message', message => {
+        this.state.content = message
+    })
   }
+
 }
 
 
 <app-layout title="Welcome to Marko">
   <div>
 
-  <textarea name="name" on-input('send') rows="8" cols="40" />
+  <span>
+    ${state.content}
+  </span>
   
-  <img.logo src=logo />
   </div>
 </app-layout>
 

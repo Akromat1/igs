@@ -1,6 +1,9 @@
 const { NODE_ENV = "development", PORT = 3000 } = process.env;
 console.time("Start");
 
+import cors from '@fastify/cors'
+import { Server } from 'socket.io';
+
 let address;
 if (NODE_ENV === "production") {
   // In production, simply start up the fastify server.
@@ -13,7 +16,7 @@ if (NODE_ENV === "production") {
   const { createServer } = await import("vite");
   const devServer = await createServer({
     appType: "custom",
-    server: { middlewareMode: true },
+    server: { cors: false, middlewareMode: true },
   });
   const server = devServer.middlewares
     .use(async (req, res, next) => {
@@ -28,6 +31,19 @@ if (NODE_ENV === "production") {
     .listen(PORT);
 
   await once(server, "listening");
+  
+  const io = new Server(server, {
+    cors: {
+      origin: "*"
+    }
+  });
+  io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('chat message', (msg) => {
+      console.info(`msg`, msg)
+      io.emit('get message', msg)
+    });
+  });
   address = `http://localhost:${server.address().port}`;
 }
 

@@ -14,6 +14,14 @@ if (process.env.NODE_ENV === "production") {
     },
   });
 
+  app.register(import('@fastify/cors'), (instance) => {
+    return (req, callback) => {
+      callback(null, {
+        origin: false,
+      })
+    }
+  })
+
   app.register(import("@fastify/static"), {
     root: path.resolve("dist/assets"),
     prefix: "/assets",
@@ -22,3 +30,4 @@ if (process.env.NODE_ENV === "production") {
 
 app.register(import("@marko/fastify"));
 app.register(import("./pages/index"));
+app.register(import("./pages/testpage"));
