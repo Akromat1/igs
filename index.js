@@ -44,7 +44,7 @@ if (NODE_ENV === "production") {
       io.emit('get message', msg)
     });
   });
-  address = `http://localhost:${server.address().port}`;
+  address = `http://31.129.103.206:${server.address().port}`;
 }
 
 console.timeEnd("Start");

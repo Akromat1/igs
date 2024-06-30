@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import { io } from "socket.io-client";
 
 class {
-  socket = io('http://localhost:3000')
+  socket = io('http://31.129.103.206:3000')
 
   send(event) {
     this.socket.emit('chat message', event.target.value)  
