@@ -1,10 +1,15 @@
-import { defineConfig } from "vite";
-import marko from "@marko/vite";
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 
-export default defineConfig({
-  plugins: [marko()],
-  build: {
-    sourcemap: true, // Generate sourcemaps for all builds.
-    emptyOutDir: false, // Avoid server & client deleting files from each other.
-  },
-});
+import viteVue from '@vitejs/plugin-vue'
+import viteFastifyVue from '@fastify/vue/plugin'
+
+const path = fileURLToPath(import.meta.url)
+
+export default {
+  root: join(dirname(path), 'client'),
+  plugins: [
+    viteVue(), 
+    viteFastifyVue(),
+  ],
+}

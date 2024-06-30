@@ -1,15 +1,5 @@
-Marko Widgets: UI Components Playground w/ Vite & Fastify
-==================================
+<br>
 
-## Getting Started
+The official **[Fastify DX for Vue](https://github.com/fastify/fastify-dx/tree/main/packages/fastify-vue)** starter template.
 
-```bash
-npm install
-npm run dev
-```
-
-## Production Build
-```bash
-npm run build
-npm start
-```
+See the [**`@fastify/vue`**](https://github.com/fastify/fastify-dx/tree/main/packages/fastify-vue)'s README for the full documentation.
