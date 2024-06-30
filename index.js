@@ -1,4 +1,4 @@
-const { NODE_ENV = "development", PORT = 3000 } = process.env;
+const { NODE_ENV = "development", VITE_PORT = 3000 } = process.env;
 console.time("Start");
 
 import cors from '@fastify/cors'
@@ -8,7 +8,7 @@ let address;
 if (NODE_ENV === "production") {
   // In production, simply start up the fastify server.
   const { app } = await import("./dist/index.js");
-  address = await app.listen({ port: PORT });
+  address = await app.listen({ port: VITE_PORT });
 } else {
   // In dev we'll start a Vite dev server in middleware mode,
   // and forward requests to our fastify server.
@@ -28,7 +28,7 @@ if (NODE_ENV === "production") {
         return next(err);
       }
     })
-    .listen(PORT);
+    .listen(VITE_PORT);
 
   await once(server, "listening");
   
@@ -44,7 +44,7 @@ if (NODE_ENV === "production") {
       io.emit('get message', msg)
     });
   });
-  address = `http://31.129.103.206:${server.address().port}`;
+  address = `http://${process.env.VITE_HOST}:${server.address().port}`;
 }
 
 console.timeEnd("Start");
