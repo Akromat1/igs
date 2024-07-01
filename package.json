@@ -1,33 +1,13 @@
 {
-  "name": "my-app",
-  "description": "Sample app that demonstrates the power of building UI components using Marko, Vite and Fastify",
+  "name": "igs",
   "version": "1.0.0",
-  "dependencies": {
-    "@fastify/compress": "^7.0.3",
-    "@fastify/cors": "^9.0.1",
-    "@fastify/static": "^7.0.3",
-    "@marko/fastify": "^1.1.1",
-    "fastify": "^4.26.2",
-    "marko": "^5.33.14",
-    "socket.io": "^4.7.5",
-    "socket.io-client": "^4.7.5"
-  },
-  "devDependencies": {
-    "@marko/compiler": "^5.35.11",
-    "@marko/vite": "^4.1.3",
-    "cross-env": "^7.0.3",
-    "postcss-preset-env": "^9.5.4",
-    "rimraf": "^5.0.5",
-    "vite": "^5.2.8"
-  },
-  "private": true,
+  "main": "index.js",
+  "workspaces": ["./packages/server", "./packages/app"],
   "scripts": {
-    "build": "rimraf dist && npm run build:server && npm run build:client",
-    "build:client": "cross-env NODE_ENV=production vite build",
-    "build:server": "cross-env NODE_ENV=production vite build --ssr src/index.js",
-    "dev": "node --env-file=.env --enable-source-maps index.js",
-    "dev:inspect": "node --inspect --enable-source-maps index.js",
-    "start": "cross-env NODE_ENV=production node --enable-source-maps index.js"
+    "start:server": "node --env-file=.env ./packages/server/index",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "type": "module"
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
