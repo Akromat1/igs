@@ -7,6 +7,9 @@
     "start:server": "node --env-file=.env ./packages/server/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.6.1"
+  },
   "author": "",
   "license": "ISC",
   "description": ""
