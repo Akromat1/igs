@@ -4,18 +4,20 @@ import { Codemirror } from 'vue-codemirror';
 
 const socket = new WebSocket("ws://localhost:3000/connect");
 
-
+const myId = crypto.randomUUID()
 const code = ref('')
 
 socket.addEventListener('message', async event => {
-  const { code: multicastCode } = JSON.parse(await event.data.text())
-  code.value  = multicastCode
+  const multicast = JSON.parse(await event.data.text())
+  if (multicast.myId !== myId) {
+    code.value = multicast.code
+  }
 })
 
 const editor = ref()
 
 watch(code, code => {
-  socket.send(JSON.stringify({code}));
+  socket.send(JSON.stringify({myId, code}));
 })
 
 </script>
