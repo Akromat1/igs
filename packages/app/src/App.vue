@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 import { Codemirror } from 'vue-codemirror';
 
-const socket = new WebSocket(`ws://31.129.103.206:80/connect`);
+const socket = new WebSocket(`ws://${import.meta.env.VITE_HOST}:${import.meta.env.VITE_PORT}/connect`);
 
 function uuidv4() {
   return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
