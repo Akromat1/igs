@@ -23,7 +23,11 @@ socket.addEventListener('message', async event => {
 
 const editor = ref()
 
-watch(code, code => {
+let debounceTimerId
+
+watch(code, async code => {
+  if (debounceTimerId) clearTimeout(debounceTimerId)
+  await new Promise(r => debounceTimerId = setTimeout(r, 1000))
   socket.send(JSON.stringify({myId, code}));
 })
 
