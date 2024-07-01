@@ -1,29 +1,28 @@
-// Require the framework and instantiate it
+import fastify from "fastify"
+import fastifyIO from "fastify-socket.io"
+import { resolve } from 'node:path'
 
-// ESM
-import Fastify from 'fastify'
-import { readFile } from 'node:fs/promises'
-
-const app = Fastify({
+const server = fastify({
   logger: true
 })
+server.register(fastifyIO)
 
-app.get('/client.js', function(req, res) {
-  reply.header('Content-Type', 'application/javascript')
-  return readFile('./client.js', 'utf-8')
+
+server.register(import('@fastify/static'), {
+  root: resolve('../app/dist'),
+  prefix: '/',
 })
 
-// Declare a route
-app.get('/', function (request, reply) {
-  reply.header('Content-Type', 'text/html')
-  return readFile('./index.html', 'utf-8')
+server.get("/", (req, res) => {
+  server.io.emit("hello")
+  res.sendFile('index.html')
 })
 
-// Run the server!
-app.listen({ port: 3000 }, function (err, address) {
-  if (err) {
-    fastify.log.error(err)
-    process.exit(1)
-  }
-  // Server is now listening on ${address}
+server.ready().then(() => {
+  // we need to wait for the server to be ready, else `server.io` is undefined
+  server.io.on("connection", (socket) => {
+    // ...
+  })
 })
+
+server.listen({ port: 3000 })
