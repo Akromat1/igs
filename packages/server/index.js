@@ -1,28 +1,38 @@
 import fastify from "fastify"
-import fastifyIO from "fastify-socket.io"
 import { resolve } from 'node:path'
+import { env } from 'node:process'
 
 const server = fastify({
-  logger: true
+  logger: true,
 })
-server.register(fastifyIO)
 
 
 server.register(import('@fastify/static'), {
-  root: resolve('../app/dist'),
+  root: resolve('./packages/app/dist'),
   prefix: '/',
 })
 
-server.get("/", (req, res) => {
-  server.io.emit("hello")
-  res.sendFile('index.html')
-})
+const connectedClients = new Set();
 
-server.ready().then(() => {
-  // we need to wait for the server to be ready, else `server.io` is undefined
-  server.io.on("connection", (socket) => {
-    // ...
+
+server
+.register(import('@fastify/websocket'))
+.register(async function (fastify) {
+  fastify.get('/connect', { websocket: true }, (socket, req) => {
+    socket.on('message', message => {
+      fastify.websocketServer.clients.forEach(client => {
+        client.send(message)
+      })
+    })
+
   })
 })
 
-server.listen({ port: 3000 })
+.get("/", (req, res) => {
+  res.sendFile('index.html')
+})
+
+.listen({
+  host: env.VITE_HOST,
+  port: parseFloat(env.VITE_PORT)
+})

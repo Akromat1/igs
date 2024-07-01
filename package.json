@@ -4,6 +4,7 @@
   "main": "index.js",
   "workspaces": ["./packages/server", "./packages/app"],
   "scripts": {
+    "start:server": "node --env-file=.env ./packages/server/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
